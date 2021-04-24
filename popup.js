@@ -4,6 +4,8 @@ console.log(document)
 //       console.log('msg sent')
 // });
 //   })
+document.getElementsByClassName("myimage")[0].setAttribute('src',"chrome-extension://"+chrome.runtime.id+"/pop.png")
+console.log(chrome.runtime.id);
 var values=[]
   
 // chrome.runtime.onMessage.addListener(

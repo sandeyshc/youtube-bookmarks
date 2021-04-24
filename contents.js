@@ -194,7 +194,7 @@ chrome.runtime.onMessage.addListener(
     // });
 contentw=document.createElement('img')
 contentw.setAttribute("class","ytp-set-current-ok"+values[values.length-1])
-contentw.setAttribute("src","chrome-extension://gcjjgjjgkemobbeilcjphdjofkaaegbm/location.png")
+contentw.setAttribute("src","chrome-extension://"+chrome.runtime.id+"/location.png")
 
 contentw.style.position="absolute"
 contentw.style.top="-25px"
@@ -318,7 +318,7 @@ function sec(){
     for(i=0;i<values.length;i++){
 contentw=document.createElement('img')
 contentw.setAttribute("class","ytp-set-current-ok"+values[i])
-contentw.setAttribute("src","chrome-extension://gcjjgjjgkemobbeilcjphdjofkaaegbm/location.png")
+contentw.setAttribute("src","chrome-extension://"+chrome.runtime.id+"/location.png")
 
 contentw.style.position="absolute"
 contentw.style.top="-25px"
