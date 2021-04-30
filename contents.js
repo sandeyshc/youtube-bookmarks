@@ -142,7 +142,11 @@
 // chrome.storage.local.remove(["https://www.youtube.com/watch?v=l5L66_KBH8M"])
 console.log(window.location.host)
 if(window.location.host==="www.youtube.com"){
-console.log("content.js running")
+console.log("content.js running",document.getElementsByClassName("ytp-progress-bar")[0])
+// while(!document.getElementsByClassName("ytp-progress-bar")[0]==undefined){
+//   console.log("waiting")
+firs(sec);
+// }
 // chrome.storage.sync.get(null, function(items) {
 //     var allKeys = Object.keys(items);
 //     console.log(allKeys,items);
@@ -154,7 +158,10 @@ console.log("content.js running")
 //    }
 // });
 var values=[]
-var keys=keys=window.location.href
+var tot=""
+var ideabox=[]
+var keys=window.location.href.split('&')[0]
+console.log(window.location.href.split('&'))
 chrome.runtime.onMessage.addListener(
  function(request, sender, sendResponse) {
    if( request.message === "fetch_top_domains" ) {
@@ -173,21 +180,22 @@ chrome.runtime.onMessage.addListener(
 //         values=[]
 //         console.log(values,'emptied')
 //       }
-
+tot=document.getElementsByClassName('title style-scope ytd-video-primary-info-renderer')[0].textContent || document.getElementsByClassName('title style-scope ytd-video-primary-info-renderer')[0].innerText
+console.log(tot) 
       curr_value=parseInt(document.getElementsByClassName("ytp-progress-bar")[0].getAttribute('aria-valuenow'))
       console.log("checking",values,curr_value,!values.includes(curr_value),values.length==0,typeof(values))
       if(values.length==0 || !values.includes(curr_value)){
 
       values.push(curr_value)
       console.log(values,keys,"yes")
-  chrome.storage.local.set({[keys]:JSON.stringify(values)}, function() {
+      ideabox.push("")
+  chrome.storage.local.set({[keys]:JSON.stringify({values,title:tot,ideabox:ideabox})}, function() {
   console.log('Value is set to ' + values+keys);
 });
-  tit=document.getElementsByClassName('title style-scope ytd-video-primary-info-renderer')[0].textContent || document.getElementsByClassName('title style-scope ytd-video-primary-info-renderer')[0].innerText
-   console.log(tit) 
-    chrome.storage.local.set({['s'+keys]:tit}, function() {
-  console.log('Value is set to tits' );
-});
+
+//     chrome.storage.local.set({['s'+keys]:tot}, function() {
+//   console.log('Value is set to tots' );
+// });
 
 
 
@@ -213,7 +221,24 @@ contentw.style.transform="translateX("+trans+"px)"
 contentw.style.height="15px"
 contentw.style.width="10px"
 contentw.style.cursor="pointer"
-thir(contentw,"ytp-set-current-ok"+values[values.length-1],values[values.length-1])
+
+
+toolstip=document.createElement('div')
+toolstip.setAttribute("class","sytp-set-current-ok"+values[values.length-1])
+toolstip.style.position="absolute"
+toolstip.style.top="-40px"
+// contentw.style.left="-6.5px"
+toolstip.style.zIndex=100
+toolstip.style.transform="translateX("+trans+"px)"
+toolstip.style.height="20px"
+toolstip.style.width="auto"
+toolstip.innerText=ideabox[i]
+toolstip.style.visibility="hidden"
+toolstip.style.display="inline-block"
+// toolstip.style.width
+
+
+thir(contentw,"ytp-set-current-ok"+values[values.length-1],values[values.length-1],toolstip,"sytp-set-current-ok"+values[values.length-1])
 
       }
       else{
@@ -252,15 +277,33 @@ chrome.runtime.onMessage.addListener(
     wan=parseInt(request.idtosend)
     ewq=document.getElementsByClassName("ytp-set-current-ok"+wan)[0]
     ewq.parentNode.removeChild(ewq);
-
-    values=values.filter(function(value, index, arr){ 
+    myindex=0
+    values=values.filter(function(value, index, arr){
+      myindex=index 
         return value !=wan;
     });
-      chrome.storage.local.set({[keys]:JSON.stringify(values)}, function() {
+    // tot=tot.splice(myindex, 1);
+    console.log(tot,"tot",myindex)
+
+    ideabox.splice(myindex,1)
+      chrome.storage.local.set({[keys]:JSON.stringify({values,title:tot,ideabox:ideabox})}, function() {
   console.log('Value is set to ' + values+keys+"updated");
 });
 
-   }})
+   }
+  if(request.message==="ideaboxsending"){
+    myideaval=request.idtosend
+    myideaid=request.idd
+    ideabox[myideaid]=myideaval
+    chrome.storage.local.set({[keys]:JSON.stringify({values,title:tot,ideabox:ideabox})}, function() {
+      console.log('Value is set to ' + values+keys+"updated");
+    });
+    document.getElementsByClassName("sytp-set-current-ok"+values[myideaid])[0].innerHTML=myideaval
+    console.log('noerr',)
+
+  }
+  
+  })
 
 // chrome.storage.onChanged.addListener(function(changes, namespace) {
 //   for (key in changes) {
@@ -283,15 +326,21 @@ chrome.runtime.onMessage.addListener(
 var check_width;
 
 function firs(callback){
-  keys=window.location.href
+  console.log('what firs')
+  keys=window.location.href.split('&')[0]
+  console.log(keys)
 
 chrome.storage.local.get(keys, function(result) {
   console.log(result,result[keys])
 
   if(Object.keys(result).length !== 0){
 console.log('Value currently is ' + result[keys]);
-  values=JSON.parse(result[keys])
-  console.log(values,"pres")
+  alldata=JSON.parse(result[keys])
+  // alldata=result[keys]
+  values=alldata.values
+  tot=alldata.title
+  ideabox=alldata.ideabox
+  console.log(values,"pres",values,tot,ideabox)
   }
   else{
     values=[]
@@ -302,10 +351,10 @@ console.log('Value currently is ' + result[keys]);
 })
 
 }
-while(!document.getElementsByClassName("ytp-progress-bar")[0]==undefined){
-  console.log("waiting")
-firs(sec);
-}
+// while(!document.getElementsByClassName("ytp-progress-bar")[0]==undefined){
+//   console.log("waiting")
+// firs(sec);
+// }
 
 function sec(){
 
@@ -334,23 +383,44 @@ contentw.style.transform="translateX("+trans+"px)"
 contentw.style.height="15px"
 contentw.style.width="10px"
 contentw.style.cursor="pointer"
-thir(contentw,"ytp-set-current-ok"+values[i],values[i])
+
+
+toolstip=document.createElement('div')
+toolstip.setAttribute("class","sytp-set-current-ok"+values[i])
+toolstip.style.position="absolute"
+toolstip.style.top="-40px"
+// contentw.style.left="-6.5px"
+toolstip.style.zIndex=100
+toolstip.style.transform="translateX("+trans+"px)"
+toolstip.style.height="20px"
+toolstip.style.width="auto"
+toolstip.innerText=ideabox[i]
+toolstip.style.visibility="hidden"
+toolstip.style.display="inline-block"
+// toolstip.style.cursor="pointer"
+
+
+thir(contentw,"ytp-set-current-ok"+values[i],values[i],toolstip,"sytp-set-current-ok"+values[i])
 }
 }
 }
 
-function thir(contentw,tagname,myval){
+function thir(contentw,tagname,myval,toolstip,tagsname){
   // ytp-player-content ytp-iv-player-content
 // currents=document.getElementsByClassName("ytp-progress-bar")[0].getAttribute('aria-valuenow')
 document.getElementsByClassName("ytp-chrome-bottom")[0].append(contentw)
+document.getElementsByClassName("ytp-chrome-bottom")[0].append(toolstip)
+
+
+
 // console.log(document.getElementsByClassName("ytp-progress-bar")[0].getAttribute('aria-valuenow'))
 document.getElementsByClassName(tagname)[0].addEventListener('click',function(){
   console.log('clicked')
   console.log(document.getElementsByClassName("ytp-progress-bar")[0].getAttribute('aria-valuenow'))
   console.log(document.getElementsByClassName("ytp-progress-bar")[0].getAttribute('aria-valuemax'))
-  function sleep (time) {
-    return new Promise((resolve) => setTimeout(resolve, time));
-  }
+  // function sleep (time) {
+  //   return new Promise((resolve) => setTimeout(resolve, time));
+  // }
 
 
   console.log("changing time")
@@ -358,6 +428,23 @@ document.getElementsByClassName(tagname)[0].addEventListener('click',function(){
 
 
 })
+console.log(document.getElementsByClassName(tagsname)[0])
+document.getElementsByClassName(tagname)[0].addEventListener('mouseover',function(){
+  console.log('mousseover')
+    document.getElementsByClassName('s'+this.getAttribute('class'))[0].style.visibility="visible"
+},false)
+document.getElementsByClassName(tagname)[0].addEventListener('mouseout',function(){
+  console.log('mouseout')
+  document.getElementsByClassName('s'+this.getAttribute('class'))[0].style.visibility="hidden"
+},false)
+
+// document.getElementsByClassName(tagsname)[0].onmouseover=function(){
+//   console.log('mousseinn')
+// }
+// document.getElementsByClassName(tagsname)[0].onmouseout=function(){
+//   console.log('mousseout')
+// }
+
 }
 
 // document.getElementsByClassName("video-stream html5-main-video")[0].load(function(){console.log("yes")});
