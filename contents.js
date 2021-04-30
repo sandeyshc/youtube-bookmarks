@@ -181,7 +181,7 @@ chrome.runtime.onMessage.addListener(
 //         console.log(values,'emptied')
 //       }
 tot=document.getElementsByClassName('title style-scope ytd-video-primary-info-renderer')[0].textContent || document.getElementsByClassName('title style-scope ytd-video-primary-info-renderer')[0].innerText
-console.log(tot) 
+console.log(tot,ideabox,values,"jajajaj") 
       curr_value=parseInt(document.getElementsByClassName("ytp-progress-bar")[0].getAttribute('aria-valuenow'))
       console.log("checking",values,curr_value,!values.includes(curr_value),values.length==0,typeof(values))
       if(values.length==0 || !values.includes(curr_value)){
@@ -344,6 +344,7 @@ console.log('Value currently is ' + result[keys]);
   }
   else{
     values=[]
+    ideabox=[]
     console.log(values,'its null')
   }
 
@@ -458,6 +459,10 @@ document.addEventListener('yt-page-data-updated',function(){
 for (; i < rem.length; i++)
     rem[i].parentNode.removeChild(rem[i]);
   console.log(rem[i])
+  var rems = document.querySelectorAll("[class*='sytp-set-current-ok']"), i = 0;
+  for (; i < rems.length; i++)
+      rems[i].parentNode.removeChild(rems[i]);
+    console.log(rems[i])
   callback(sec)
 }
 checks(firs)
