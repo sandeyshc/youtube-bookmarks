@@ -68,10 +68,11 @@ for (i=0; i < rem.length; i++){
 	// r.parentNode.removeChild(r);
 //   console.log(rem[i])
   // callback(sec)
-  if(Object.keys(changes)[0].substring(0,1)!="s" && Object.keys(changes)[0].includes("https://www.youtube.com/")){
-	getval()
-	console.log('hahaha')
-  }
+//   if(Object.keys(changes)[0].substring(0,1)!="s" && Object.keys(changes)[0].includes("https://www.youtube.com/")){
+// 	getval()
+// 	console.log('hahaha')
+//   }
+getval()
 
 
 
@@ -121,6 +122,10 @@ console.log('Value currently is ' + result[keys]);
 }
   console.log(values,"here")
   if(values!=[]){
+	document.body.append(document.createElement('br'))
+	// document.body.append(document.createElement('br'))
+	// document.body.append(document.createElement('br'))
+
   for(ij=0;ij<values.length;ij++){
   	console.log(ij,"this")
           	hrs=parseInt(values[ij]/3600)
@@ -138,11 +143,15 @@ console.log('Value currently is ' + result[keys]);
 			cqw.style.width="50px"
 			cqw.style.height="15px"
 			cqw.style.fontFamily="Arial, Helvetica, sans-serif"
+			cqw.style.padding="3px";
+			cqw.style.fontSize="15px"
+
 			cqw.style.float='left'
 			imagessss=document.createElement('img')
 			imagessss.setAttribute('src',"chrome-extension://"+chrome.runtime.id+"/del.png")
-			imagessss.setAttribute('height','15px')
-			imagessss.setAttribute('width','15px')
+			imagessss.setAttribute('height','18px')
+			imagessss.setAttribute('width','18px')
+			imagessss.style.padding="1px";
 			imagessss.setAttribute("class",values[ij])
 
 			imagessss.style.cursor="pointer"
@@ -155,9 +164,10 @@ console.log('Value currently is ' + result[keys]);
 			inputs.setAttribute('type','text')
 			inputs.setAttribute('class','ss'+values[ij])
 			inputs.style.float="left"
-			inputs.style.width="100px"
-			inputs.style.marginRight="30px"
-			inputs.setAttribute('placeholder','Enter timestamp msg')
+			inputs.style.width="107px"
+			inputs.style.height="25px"
+			inputs.style.marginRight="20px"
+			inputs.setAttribute('placeholder','Enter bookmark')
 			inputs.setAttribute('value',ideabox[ij])
 			// inputs.style.height="15px"
 
@@ -174,6 +184,7 @@ console.log('Value currently is ' + result[keys]);
 			// removes.style.height="15px"
 			// removes.style.width="px"
 			submits.style.float='left'
+			// document.body.append(document.createElement('br'))
 
 			contentwp.appendChild(imagessss)
 			contentwp.appendChild(cqw)
@@ -245,7 +256,9 @@ console.log('Value currently is ' + result[keys]);
 
 			// document.body.append(cw)
 			document.body.append(document.createElement('br'))
-						document.body.append(document.createElement('br'))
+			document.body.append(document.createElement('br'))
+
+						// document.body.append(document.createElement('br'))
 						// document.body.append(document.createElement('br'))
 
 			// document.getElementsByClassName('ss'+values[ij])[0].addEventListener('change',function(){

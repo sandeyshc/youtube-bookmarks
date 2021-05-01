@@ -279,7 +279,10 @@ chrome.runtime.onMessage.addListener(
     ewq.parentNode.removeChild(ewq);
     myindex=0
     values=values.filter(function(value, index, arr){
-      myindex=index 
+      console.log(index,value===wan,value!==wan)
+      if(value===wan){
+        myindex=index
+      } 
         return value !=wan;
     });
     // tot=tot.splice(myindex, 1);
